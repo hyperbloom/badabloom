@@ -41,4 +41,14 @@ describe('BadaBloom', () => {
     const results = b.fetch(Buffer.from('hello'));
     assert.deepEqual(results, [ 'world', 'everyone' ]);
   });
+
+  it('shoud `.has()` duplicates', () => {
+    b.insert(Buffer.from('hello'), Buffer.from('world'));
+    b.insert(Buffer.from('hello'), Buffer.from('everyone'));
+
+    assert(b.has(Buffer.from('hello'), Buffer.from('world')));
+    assert(b.has(Buffer.from('hello'), Buffer.from('everyone')));
+    assert(!b.has(Buffer.from('hello'), Buffer.from('someone')));
+    assert(!b.has(Buffer.from('ohai'), Buffer.from('someone')));
+  });
 });
