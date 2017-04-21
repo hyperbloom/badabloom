@@ -14,7 +14,8 @@ describe('BadaBloom', () => {
   it('should `.insert()` and `.fetch()` should return value', () => {
     b.insert(Buffer.from('hello'), 'world');
 
-    assert.equal(b.fetch(Buffer.from('hello')), 'world');
+    const r = b.fetch(Buffer.from('hello'));
+    assert.deepEqual(r, [ 'world' ]);
   });
 
   it('should `.query()` missing items', () => {
@@ -30,5 +31,14 @@ describe('BadaBloom', () => {
 
     const missing = b.query(other.getRawFilter());
     assert.equal(missing.length, 250);
+  });
+
+  it('shoud `.fetch()` duplicates', () => {
+    b.insert(Buffer.from('hello'), 'world');
+    b.insert(Buffer.from('hello'), 'everyone');
+    b.insert(Buffer.from('ohai'), 'friends');
+
+    const results = b.fetch(Buffer.from('hello'));
+    assert.deepEqual(results, [ 'world', 'everyone' ]);
   });
 });
