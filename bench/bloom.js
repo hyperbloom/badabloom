@@ -4,7 +4,7 @@ const Bloom = require('../').Bloom;
 
 const b = new Bloom(64 * 1024, 30);
 
-const key = Buffer.from('hello');
+const key = 'hello';
 
 const COUNT = 1e6;
 
