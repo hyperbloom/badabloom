@@ -18,6 +18,14 @@ describe('BadaBloom', () => {
     assert.deepEqual(r, [ 'world' ]);
   });
 
+  it('should `.bulkInsert()`', () => {
+    b.bulkInsert([ { key: 'hello', value: 'world' },
+                   { key: 'ohai', value: 'everyone' } ]);
+
+    const r = b.fetch('hello');
+    assert.deepEqual(r, [ 'world' ]);
+  });
+
   it('should `.query()` missing items', () => {
     const other = new BadaBloom();
 
