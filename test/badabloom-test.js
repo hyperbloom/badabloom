@@ -33,7 +33,7 @@ describe('BadaBloom', () => {
     assert.equal(missing.length, 250);
   });
 
-  it('shoud `.fetch()` duplicates', () => {
+  it('should `.fetch()` duplicates', () => {
     b.insert('hello', 'world');
     b.insert('hello', 'everyone');
     b.insert('ohai', 'friends');
@@ -42,7 +42,7 @@ describe('BadaBloom', () => {
     assert.deepEqual(results, [ 'world', 'everyone' ]);
   });
 
-  it('shoud `.has()` duplicates', () => {
+  it('should `.has()` duplicates', () => {
     b.insert('hello', 'world');
     b.insert('hello', 'everyone');
 
@@ -50,5 +50,14 @@ describe('BadaBloom', () => {
     assert(b.has('hello', 'everyone'));
     assert(!b.has('hello', 'someone'));
     assert(!b.has('ohai', 'someone'));
+  });
+
+  it('should `.toJSON()` all data', () => {
+    b.insert('hello', 'world');
+    b.insert('hello', 'everyone');
+
+    assert.deepEqual(b.toJSON(), [
+      { key: 'hello', entries: [ 'world', 'everyone' ] }
+    ]);
   });
 });
