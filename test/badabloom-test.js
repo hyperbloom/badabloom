@@ -12,9 +12,9 @@ describe('BadaBloom', () => {
   });
 
   it('should `.insert()` and `.fetch()` should return value', () => {
-    b.insert(Buffer.from('hello'), 'world');
+    b.insert('hello', 'world');
 
-    const r = b.fetch(Buffer.from('hello'));
+    const r = b.fetch('hello');
     assert.deepEqual(r, [ 'world' ]);
   });
 
@@ -22,9 +22,9 @@ describe('BadaBloom', () => {
     const other = new BadaBloom();
 
     for (let i = 0; i < 750; i++)
-      b.insert(Buffer.from(i.toString()), i);
+      b.insert(i.toString(), i);
     for (let i = 250; i < 1000; i++)
-      other.insert(Buffer.from(i.toString()), i);
+      other.insert(i.toString(), i);
 
     const self = b.query(b.getRawFilter());
     assert.equal(self.length, 0);
@@ -34,21 +34,21 @@ describe('BadaBloom', () => {
   });
 
   it('shoud `.fetch()` duplicates', () => {
-    b.insert(Buffer.from('hello'), 'world');
-    b.insert(Buffer.from('hello'), 'everyone');
-    b.insert(Buffer.from('ohai'), 'friends');
+    b.insert('hello', 'world');
+    b.insert('hello', 'everyone');
+    b.insert('ohai', 'friends');
 
-    const results = b.fetch(Buffer.from('hello'));
+    const results = b.fetch('hello');
     assert.deepEqual(results, [ 'world', 'everyone' ]);
   });
 
   it('shoud `.has()` duplicates', () => {
-    b.insert(Buffer.from('hello'), Buffer.from('world'));
-    b.insert(Buffer.from('hello'), Buffer.from('everyone'));
+    b.insert('hello', 'world');
+    b.insert('hello', 'everyone');
 
-    assert(b.has(Buffer.from('hello'), Buffer.from('world')));
-    assert(b.has(Buffer.from('hello'), Buffer.from('everyone')));
-    assert(!b.has(Buffer.from('hello'), Buffer.from('someone')));
-    assert(!b.has(Buffer.from('ohai'), Buffer.from('someone')));
+    assert(b.has('hello', 'world'));
+    assert(b.has('hello', 'everyone'));
+    assert(!b.has('hello', 'someone'));
+    assert(!b.has('ohai', 'someone'));
   });
 });
