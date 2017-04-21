@@ -51,13 +51,4 @@ describe('BadaBloom', () => {
     assert(!b.has('hello', 'someone'));
     assert(!b.has('ohai', 'someone'));
   });
-
-  it('should `.toJSON()` all data', () => {
-    b.insert('hello', 'world');
-    b.insert('hello', 'everyone');
-
-    assert.deepEqual(b.toJSON(), [
-      { key: 'hello', entries: [ 'world', 'everyone' ] }
-    ]);
-  });
 });
