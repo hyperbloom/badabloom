@@ -15,7 +15,7 @@ describe('BadaBloom', () => {
     b = new BadaBloom();
   });
 
-  it('should `.query()` missing items', () => {
+  it('should `.sync()` missing items', () => {
     const other = new BadaBloom();
 
     for (let i = 0; i < 750; i++)
@@ -26,10 +26,10 @@ describe('BadaBloom', () => {
       bulk.push(B(i.toString()));
     assert.equal(other.bulkInsert(bulk), bulk.length);
 
-    const self = b.query(b.getRawFilter());
+    const self = b.sync(b.getRawFilter());
     assert.equal(self.length, 0);
 
-    const missing = b.query(other.getRawFilter());
+    const missing = b.sync(other.getRawFilter());
     assert.equal(missing.length, 250);
   });
 
