@@ -55,4 +55,12 @@ describe('BadaBloom', () => {
     });
     assert(!b.has(B('')));
   });
+
+  it('should sort entries', () => {
+    const list = [ 'a', 'x', 'wy', 's', 'w', 'y', 'z', 'b', 'ab', 'wz', 'wyz' ];
+
+    list.forEach(elem => b.insert(B(elem)));
+
+    assert.deepEqual(b.entries, list.slice().sort().map(elem => B(elem)));
+  });
 });
