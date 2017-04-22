@@ -33,6 +33,24 @@ describe('BadaBloom', () => {
     assert.equal(missing.length, 250);
   });
 
+  it('should support `.sync()` limit', () => {
+    const other = new BadaBloom();
+
+    for (let i = 0; i < 750; i++)
+      b.insert(B(i.toString()));
+
+    const bulk = [];
+    for (let i = 250; i < 1000; i++)
+      bulk.push(B(i.toString()));
+    assert.equal(other.bulkInsert(bulk), bulk.length);
+
+    const self = b.sync(b.getRawFilter(), 10);
+    assert.equal(self.length, 0);
+
+    const missing = b.sync(other.getRawFilter(), 10);
+    assert.equal(missing.length, 10);
+  });
+
   it('should `.fetch()` duplicates', () => {
     b.insert(B('hello'));
     b.insert(B('hello'));
