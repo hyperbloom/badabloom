@@ -48,4 +48,11 @@ describe('BadaBloom', () => {
     assert(b.has(B('hello')));
     assert(!b.has(B('ohai')));
   });
+
+  it('should throw on empty values', () => {
+    assert.throws(() => {
+      b.insert(B(''));
+    });
+    assert(!b.has(B('')));
+  });
 });
