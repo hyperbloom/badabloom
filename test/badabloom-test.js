@@ -90,12 +90,21 @@ describe('BadaBloom', () => {
 
     list.forEach(elem => b.insert(B(elem)));
 
-    assert.deepEqual(b.request(B('a'), B('c')), [ 'a', 'ab', 'b' ].map(B));
-    assert.deepEqual(b.request(B('a'), B('b')), [ 'a', 'ab' ].map(B));
-    assert.deepEqual(b.request(B('a'), B('b'), 1), [ 'a' ].map(B));
-    assert.deepEqual(b.request(B('a'), B('b'), 0), [ ].map(B));
+    assert.deepEqual(b.request({ start: B('a'), end: B('c') }),
+                     [ 'a', 'ab', 'b' ].map(B));
+    assert.deepEqual(b.request({ start: B('a'), end: B('b') }),
+                     [ 'a', 'ab' ].map(B));
+    assert.deepEqual(b.request({ start: B('a'), end: B('b') }, 1),
+                     [ 'a' ].map(B));
+    assert.deepEqual(b.request({ start: B('a'), end: B('b') }, 0), [ ].map(B));
 
-    assert.deepEqual(b.request(B('s'), B('wz')),
+    assert.deepEqual(b.request({ start: B('s'), end: B('wz') }),
                      [ 's', 'w', 'wy', 'wyz' ].map(B));
+
+    assert.deepEqual(b.request({ start: B('w') }),
+                     [ 'w', 'wy', 'wyz', 'wz', 'x', 'y', 'z' ].map(B));
+
+    assert.deepEqual(b.request({ start: B('w') }, 3),
+                     [ 'w', 'wy', 'wyz' ].map(B));
   });
 });
