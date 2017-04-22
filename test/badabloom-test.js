@@ -49,9 +49,12 @@ describe('BadaBloom', () => {
 
     const missing = b.sync(other.getRawFilter(), 10);
     assert.equal(missing.length, 10);
+
+    const empty = b.sync(other.getRawFilter(), 0);
+    assert.equal(empty.length, 0);
   });
 
-  it('should `.fetch()` duplicates', () => {
+  it('should ignore duplicates', () => {
     b.insert(B('hello'));
     b.insert(B('hello'));
     b.insert(B('ohai'));
@@ -79,6 +82,20 @@ describe('BadaBloom', () => {
 
     list.forEach(elem => b.insert(B(elem)));
 
-    assert.deepEqual(b.entries, list.slice().sort().map(elem => B(elem)));
+    assert.deepEqual(b.entries, list.slice().sort().map(B));
+  });
+
+  it('should `.request()` entries', () => {
+    const list = [ 'a', 'x', 'wy', 's', 'w', 'y', 'z', 'b', 'ab', 'wz', 'wyz' ];
+
+    list.forEach(elem => b.insert(B(elem)));
+
+    assert.deepEqual(b.request(B('a'), B('c')), [ 'a', 'ab', 'b' ].map(B));
+    assert.deepEqual(b.request(B('a'), B('b')), [ 'a', 'ab' ].map(B));
+    assert.deepEqual(b.request(B('a'), B('b'), 1), [ 'a' ].map(B));
+    assert.deepEqual(b.request(B('a'), B('b'), 0), [ ].map(B));
+
+    assert.deepEqual(b.request(B('s'), B('wz')),
+                     [ 's', 'w', 'wy', 'wyz' ].map(B));
   });
 });
