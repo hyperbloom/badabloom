@@ -15,28 +15,16 @@ describe('BadaBloom', () => {
     b = new BadaBloom();
   });
 
-  it('should `.insert()` and `.fetch()` should return value', () => {
-    b.insert(B('hello'), B('world'));
-
-    const r = b.fetch(B('hello'));
-    assert.deepEqual(r, [ B('world') ]);
-  });
-
-  it('should `.bulkInsert()`', () => {
-    b.bulkInsert([ { key: B('hello'), value: B('world') },
-                   { key: B('ohai'), value: B('everyone') } ]);
-
-    const r = b.fetch(B('hello'));
-    assert.deepEqual(r, [ B('world') ]);
-  });
-
   it('should `.query()` missing items', () => {
     const other = new BadaBloom();
 
     for (let i = 0; i < 750; i++)
-      b.insert(B((i >>> 1).toString()), B(i.toString()));
+      b.insert(B(i.toString()));
+
+    const bulk = [];
     for (let i = 250; i < 1000; i++)
-      other.insert(B((i >>> 1).toString()), B(i.toString()));
+      bulk.push(B(i.toString()));
+    assert.equal(other.bulkInsert(bulk), bulk.length);
 
     const self = b.query(b.getRawFilter());
     assert.equal(self.length, 0);
@@ -46,21 +34,18 @@ describe('BadaBloom', () => {
   });
 
   it('should `.fetch()` duplicates', () => {
-    b.insert(B('hello'), B('world'));
-    b.insert(B('hello'), B('everyone'));
-    b.insert(B('ohai'), B('friends'));
+    b.insert(B('hello'));
+    b.insert(B('hello'));
+    b.insert(B('ohai'));
 
-    const results = b.fetch(B('hello'));
-    assert.deepEqual(results, [ B('world'), B('everyone') ]);
+    assert.deepEqual(b.entries, [ B('hello'), B('ohai') ]);
   });
 
   it('should `.has()` duplicates', () => {
-    b.insert(B('hello'), B('world'));
-    b.insert(B('hello'), B('everyone'));
+    b.insert(B('hello'));
+    b.insert(B('hello'));
 
-    assert(b.has(B('hello'), B('world')));
-    assert(b.has(B('hello'), B('everyone')));
-    assert(!b.has(B('hello'), B('someone')));
-    assert(!b.has(B('ohai'), B('someone')));
+    assert(b.has(B('hello')));
+    assert(!b.has(B('ohai')));
   });
 });
