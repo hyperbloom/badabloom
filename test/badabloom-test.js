@@ -127,4 +127,10 @@ describe('BadaBloom', () => {
     assert.deepEqual(b.request({ start: B('w') }, 3),
                      [ 'w', 'wy', 'wyz' ].map(B));
   });
+
+  it('should not throw when calling `.getRawFilter()` on empty bloom', () => {
+    assert.doesNotThrow(() => {
+      b.getRawFilter();
+    });
+  });
 });
