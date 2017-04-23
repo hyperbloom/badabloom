@@ -24,7 +24,7 @@ describe('BadaBloom', () => {
     const bulk = [];
     for (let i = 250; i < 1000; i++)
       bulk.push(B(i.toString()));
-    assert.equal(other.bulkInsert(bulk), bulk.length);
+    assert.equal(other.bulkInsert(bulk).length, bulk.length);
 
     const self = b.sync(b.getRawFilter());
     assert.equal(self.length, 0);
@@ -42,7 +42,7 @@ describe('BadaBloom', () => {
     const bulk = [];
     for (let i = 250; i < 1000; i++)
       bulk.push(B(i.toString()));
-    assert.equal(other.bulkInsert(bulk), bulk.length);
+    assert.equal(other.bulkInsert(bulk).length, bulk.length);
 
     const missing = b.sync(other.getRawFilter(),
                            { start: B('1'), end: B('2') });
@@ -61,7 +61,7 @@ describe('BadaBloom', () => {
     const bulk = [];
     for (let i = 250; i < 1000; i++)
       bulk.push(B(i.toString()));
-    assert.equal(other.bulkInsert(bulk), bulk.length);
+    assert.equal(other.bulkInsert(bulk).length, bulk.length);
 
     const self = b.sync(b.getRawFilter(), 10);
     assert.equal(self.length, 0);
