@@ -70,7 +70,7 @@ describe('BadaBloom', () => {
     assert.equal(missing.length, 10);
 
     const empty = b.sync(other.getRawFilter(), 0);
-    assert.equal(empty.length, 0);
+    assert.equal(empty.length, 250);
   });
 
   it('should ignore duplicates', () => {
@@ -115,7 +115,8 @@ describe('BadaBloom', () => {
                      [ 'a', 'ab' ].map(B));
     assert.deepEqual(b.request({ start: B('a'), end: B('b') }, 1),
                      [ 'a' ].map(B));
-    assert.deepEqual(b.request({ start: B('a'), end: B('b') }, 0), [ ].map(B));
+    assert.deepEqual(b.request({ start: B('a'), end: B('b') }, 0),
+                     [ 'a', 'ab' ].map(B));
 
     assert.deepEqual(b.request({ start: B('s'), end: B('wz') }),
                      [ 's', 'w', 'wy', 'wyz' ].map(B));
