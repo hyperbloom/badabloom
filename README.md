@@ -1,6 +1,34 @@
-# badabloom
+# BadaBloom
 
-**WORK IN PROGRESS/EXPERIMENTAL**
+In-memory backend for [HyperBloom][0].
+
+## Usage
+
+```js
+const BadaBloom = require('badabloom');
+
+const bloom = new BadaBloom();
+
+bloom.insert(Buffer.from('value'));
+bloom.bulkInsert([ Buffer.from('other') ]);
+
+bloom.has(Buffer.from('value'));
+
+// Sync
+
+const other = new BadaBloom();
+other.insert(Buffer.from('other'));
+
+other.sync(bloom.getRawFilter());  // [ Buffer.from('value') ]
+
+// Request
+
+bloom.request({ start: Buffer.from('a'), end: Buffer.from('z') }, limit);
+
+// Filter options
+
+bloom.getFilterOptions();
+```
 
 ## LICENSE
 
@@ -26,3 +54,5 @@ NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
 DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+[0]: https://github.com/hyperbloom/hyperbloom
