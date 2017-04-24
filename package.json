@@ -1,6 +1,6 @@
 {
   "name": "badabloom",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "BadaBloom dictionary",
   "main": "lib/badabloom.js",
   "scripts": {
