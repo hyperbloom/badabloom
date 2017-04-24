@@ -6,6 +6,10 @@
   "scripts": {
     "test": "mocha --reporter=spec test/*-test.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hyperbloom/badabloom.git"
+  },
   "keywords": [
     "bloom",
     "dictionary",
